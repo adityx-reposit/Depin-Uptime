@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model Users{
+  id          String @id   @default(uuid())
+  email       String @unique
+  website     Website[]
+}
+
+model Website{
+  id        String @id   @default(uuid())
+  url       String
+  userId    String 
+  ticks     WebsiteTickTable[]
+  Users     Users? @relation(fields: [userId], references: [id])
+  disabled  Boolean @default(false)
+}
+
+
+model Uptime{
+  id         String @id   @default(uuid())
+  userId     String @unique
+  uptime     String
+  createdAt  DateTime @default(now())
+}
+
+
+model Validator{
+  id          String @id   @default(uuid())
+  publicKey   String
+  location    String
+  ip          String
+  ticks       WebsiteTickTable[]
+}
+
+
+model WebsiteTickTable{
+  id                   String @id   @default(uuid())
+  WebsiteId            String
+  ValidatorId          String
+  createdAt            DateTime 
+  status               WebsiteStatus
+  latency              Float
+  website              Website? @relation(fields: [WebsiteId], references: [id])
+  validator            Validator? @relation(fields: [ValidatorId], references: [id])
+}
+
+
+enum WebsiteStatus{
+  Good
+  Bad
+}
