@@ -1,5 +1,5 @@
 import express from 'express'
-import { middleware } from './middleware'
+import middleware from './middleware'
 import { prismaClient } from 'db/client'
 
 const app = express()
@@ -70,4 +70,4 @@ app.delete('/api/v1/website',middleware, async(req, res) => {
     })
 })
 
-app.listen(3000);
+app.listen(8080);

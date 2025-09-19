@@ -1,10 +1,11 @@
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
 
-export default function Home() {
+import Landing from "@/components/ui/landing";
+
+export default function App() { 
   return (
-    <div className="flex flex-col items-center justify-center gap-4 py-20">
-      <Button>Add Website</Button>
+    <div className="min-h-screen bg-gray-900 text-white">
+        <Landing></Landing>
+     
+         
     </div>
-  );
-}
+  )}
